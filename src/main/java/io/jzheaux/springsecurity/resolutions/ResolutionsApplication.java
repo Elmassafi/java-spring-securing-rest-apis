@@ -62,8 +62,7 @@ public class ResolutionsApplication extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public OpaqueTokenIntrospector introspector(
-            UserRepository users, OAuth2ResourceServerProperties properties) {
+    public OpaqueTokenIntrospector introspector(UserRepository users, OAuth2ResourceServerProperties properties) {
         OpaqueTokenIntrospector introspector = new NimbusOpaqueTokenIntrospector(
                 properties.getOpaquetoken().getIntrospectionUri(),
                 properties.getOpaquetoken().getClientId(),
