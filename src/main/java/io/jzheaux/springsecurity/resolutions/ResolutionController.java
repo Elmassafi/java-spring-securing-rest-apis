@@ -22,7 +22,6 @@ public class ResolutionController {
         this.users = users;
     }
 
-    @CrossOrigin(allowCredentials = "true")
     @PreAuthorize("hasAuthority('resolution:read')")
     @PostFilter("@post.filter(#root)")
     @GetMapping("/resolutions")

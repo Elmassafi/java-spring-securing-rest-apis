@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.resource.introspection.NimbusOpaqueTokenIntrospector;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -59,6 +60,12 @@ public class ResolutionsApplication extends WebSecurityConfigurerAdapter {
                 .cors(cors -> {
                 });//To configure Spring Security to allow CORS handshakes, call the cors() method in the Spring Security DSL,
 
+    }
+
+    @Bean
+    public WebClient.Builder web() {
+        return WebClient.builder()
+                .baseUrl("http://localhost:8081");
     }
 
     @Bean
