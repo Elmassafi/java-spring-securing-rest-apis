@@ -3,17 +3,16 @@ package io.jzheaux.springsecurity.resolutions;
 import javax.persistence.*;
 import java.util.UUID;
 
-@Entity(name = "authorities")
+@Entity(name="authorities")
 public class UserAuthority {
     @Id
-    private UUID id;
+    UUID id;
 
     @Column
-    private String authority;
-
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    String authority;
+    @JoinColumn(name="username", referencedColumnName="username")
     @ManyToOne
-    private User user;
+    User user;
 
     public UserAuthority() {
     }
@@ -22,14 +21,6 @@ public class UserAuthority {
         this.id = UUID.randomUUID();
         this.user = user;
         this.authority = authority;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getAuthority() {
