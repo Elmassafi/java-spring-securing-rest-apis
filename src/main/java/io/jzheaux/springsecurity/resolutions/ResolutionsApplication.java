@@ -7,9 +7,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-
-import javax.sql.DataSource;
 
 /*
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
@@ -24,8 +21,8 @@ public class ResolutionsApplication extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    UserDetailsService userDetailsService(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
+    UserDetailsService userDetailsService(UserRepository users) {
+        return new UserRepositoryUserDetailsService(users);
     }
 
     @Override
