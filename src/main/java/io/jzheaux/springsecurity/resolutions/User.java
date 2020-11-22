@@ -7,23 +7,25 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
-@Entity(name="users")
+@Entity(name = "users")
 public class User implements Serializable {
-
-    @Id
     @Column
-    private UUID id;
+    protected boolean enabled = true;
     @Column
     String username;
     @Column
     String password;
-    @Column
-    protected boolean enabled = true;
-    @OneToMany(fetch= FetchType.EAGER, cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Collection<UserAuthority> userAuthorities = new ArrayList<>();
-
-    @Column(name="full_name")
+    @Column(name = "full_name")
     String fullName;
+    @Column
+    String subscription;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    Collection<User> friends = new ArrayList<>();
+    @Id
+    @Column
+    private UUID id;
 
     public User() {
         this.id = UUID.randomUUID();
@@ -34,6 +36,7 @@ public class User implements Serializable {
         this.username = username;
         this.password = password;
     }
+
     public User(User user) {
         this.id = user.id;
         this.username = user.username;
@@ -42,6 +45,7 @@ public class User implements Serializable {
         this.userAuthorities = user.userAuthorities;
         this.fullName = user.fullName;
     }
+
     public UUID getId() {
         return id;
     }
@@ -65,6 +69,7 @@ public class User implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
     public Collection<UserAuthority> getUserAuthorities() {
         return Collections.unmodifiableCollection(this.userAuthorities);
     }
@@ -88,6 +93,22 @@ public class User implements Serializable {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public Collection<User> getFriends() {
+        return friends;
+    }
+
+    public void addFriend(User friend) {
+        friends.add(friend);
+    }
+
+    public String getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(String subscription) {
+        this.subscription = subscription;
     }
 
     @Override
