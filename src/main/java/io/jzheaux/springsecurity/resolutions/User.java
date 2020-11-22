@@ -23,6 +23,7 @@ public class User implements Serializable {
     private Collection<UserAuthority> userAuthorities = new ArrayList<>();
 
     public User() {
+        this.id = UUID.randomUUID();
     }
 
     public User(String username, String password) {
