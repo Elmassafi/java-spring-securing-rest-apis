@@ -15,9 +15,10 @@ import java.util.UUID;
 @RestController
 public class ResolutionController {
     private final ResolutionRepository resolutions;
-    private final UserRepository users;
+    //private final UserRepository users;
+    private final UserService users;
 
-    public ResolutionController(ResolutionRepository resolutions, UserRepository users) {
+    public ResolutionController(ResolutionRepository resolutions, UserService users) {
         this.resolutions = resolutions;
         this.users = users;
     }
@@ -31,8 +32,8 @@ public class ResolutionController {
         //boolean hasUserRead = authentication.getAuthorities().contains(new SimpleGrantedAuthority("user:read"));
         //if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("user:read"))) {
         for (Resolution resolution : resolutions) {
-            String fullName = this.users.findByUsername(resolution.getOwner())
-                    .map(User::getFullName).orElse("Anonymous");
+            String fullName = this.users.getFullName(resolution.getOwner())
+                    .orElse("Anonymous");
             resolution.setText(resolution.getText() + ", by " + fullName);
         }
         //}
@@ -82,9 +83,9 @@ public class ResolutionController {
         resolution
                 .filter(r -> r.getOwner().equals(user.getUsername()))
                 .map(Resolution::getText).ifPresent(text -> {
-                         for (User friend : user.getFriends()) {
-                            make(friend.getUsername(), text);
-                }
+            for (User friend : user.getFriends()) {
+                make(friend.getUsername(), text);
+            }
         });
 
         return resolution;
